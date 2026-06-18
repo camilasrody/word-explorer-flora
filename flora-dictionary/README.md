@@ -28,50 +28,64 @@ Full-stack dictionary application built for the Flora Energia technical assessme
 ## Pré-requisitos
 
 - Node.js ≥ 20
-- Docker & Docker Compose
-- (ou) PostgreSQL 16 + Redis 7 locais
+- Docker & Docker Compose (opção 1)
+- PostgreSQL 16 + Redis 7 locais (opção 2)
 
-## Instalação com Docker
+## Como rodar
+
+### Opção 1 — Docker (recomendado)
+
+> Requer Docker Desktop rodando.
 
 ```bash
-git clone <repo-url> flora-dictionary
-cd flora-dictionary
+git clone https://github.com/camilasrody/word-explorer-flora.git
+cd word-explorer-flora
 
-# Subir todos os serviços
-docker compose up -d
+cp backend/.env.example backend/.env
+```
 
-# Executar migrations e importar palavras
+Edite `backend/.env` e preencha `JWT_SECRET` com qualquer string de 32+ caracteres. Depois:
+
+```bash
+docker compose up -d --build
+
 docker compose exec backend npx prisma migrate deploy
 docker compose exec backend npm run db:seed
 ```
 
 Acesse: http://localhost:3000
 
-## Instalação manual
+Para parar:
 
-### Backend
+```bash
+docker compose down
+```
+
+### Opção 2 — Manual (sem Docker)
+
+Requer PostgreSQL 16 e Redis 7 instalados e rodando localmente.
+
+**Backend**
 
 ```bash
 cd backend
 cp .env.example .env
-# Editar .env com suas credenciais
-
 npm install
-npx prisma migrate dev
-npm run db:seed      # importa palavras do dwyl/english-words (words_alpha.txt)
+npx prisma migrate deploy
+npm run db:seed
 npm run dev
 ```
 
-### Frontend
+**Frontend** (em outro terminal)
 
 ```bash
 cd frontend
 cp .env.example .env.local
-# Editar NEXT_PUBLIC_API_URL se necessário
-
 npm install
 npm run dev
 ```
+
+Acesse: http://localhost:3000
 
 ## Variáveis de ambiente
 
@@ -92,15 +106,6 @@ npm run dev
 | Variável | Descrição | Padrão |
 |---|---|---|
 | `NEXT_PUBLIC_API_URL` | URL base da API | `http://localhost:3001/api` |
-
-## Importação de palavras
-
-Faça o download do arquivo `words_alpha.txt` do repositório [dwyl/english-words](https://github.com/dwyl/english-words) e coloque em `backend/scripts/words_alpha.txt`, depois execute:
-
-```bash
-cd backend
-npm run db:seed
-```
 
 ## API Endpoints
 
