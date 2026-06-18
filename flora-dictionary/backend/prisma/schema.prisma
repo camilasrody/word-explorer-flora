@@ -1,0 +1,54 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String     @id @default(cuid())
+  name      String
+  email     String     @unique
+  password  String
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  history   History[]
+  favorites Favorite[]
+
+  @@index([email])
+}
+
+model Word {
+  id        String     @id @default(cuid())
+  word      String     @unique
+  createdAt DateTime   @default(now())
+  history   History[]
+  favorites Favorite[]
+
+  @@index([word])
+}
+
+model History {
+  id       String   @id @default(cuid())
+  userId   String
+  wordId   String
+  viewedAt DateTime @default(now())
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  word     Word     @relation(fields: [wordId], references: [id])
+
+  @@index([userId, viewedAt(sort: Desc)])
+}
+
+model Favorite {
+  id        String   @id @default(cuid())
+  userId    String
+  wordId    String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  word      Word     @relation(fields: [wordId], references: [id])
+
+  @@unique([userId, wordId])
+  @@index([userId])
+}
