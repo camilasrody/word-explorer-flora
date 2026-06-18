@@ -33,7 +33,6 @@ export function Pagination({ page, totalPages, onPageChange }: PaginationProps) 
 
   return (
     <nav aria-label="Pagination" className="flex items-center justify-center gap-1 pt-2 flex-wrap">
-      {/* First */}
       <button
         className={cn(btn, 'text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 disabled:opacity-40')}
         onClick={() => onPageChange(1)}
@@ -43,7 +42,6 @@ export function Pagination({ page, totalPages, onPageChange }: PaginationProps) 
         «
       </button>
 
-      {/* Prev */}
       <button
         className={cn(btn, 'text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 disabled:opacity-40')}
         onClick={() => onPageChange(page - 1)}
@@ -53,7 +51,6 @@ export function Pagination({ page, totalPages, onPageChange }: PaginationProps) 
         ‹
       </button>
 
-      {/* Page numbers */}
       {pages.map((p, i) =>
         p === '...' ? (
           <span key={`ellipsis-${i}`} className="inline-flex items-center justify-center min-w-[2rem] h-8 px-1 text-xs text-gray-400">
@@ -76,7 +73,6 @@ export function Pagination({ page, totalPages, onPageChange }: PaginationProps) 
         ),
       )}
 
-      {/* Next */}
       <button
         className={cn(btn, 'text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 disabled:opacity-40')}
         onClick={() => onPageChange(page + 1)}
@@ -86,7 +82,6 @@ export function Pagination({ page, totalPages, onPageChange }: PaginationProps) 
         ›
       </button>
 
-      {/* Last */}
       <button
         className={cn(btn, 'text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 disabled:opacity-40')}
         onClick={() => onPageChange(totalPages)}
