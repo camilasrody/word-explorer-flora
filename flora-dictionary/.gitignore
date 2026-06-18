@@ -1,0 +1,17 @@
+node_modules/
+dist/
+build/
+.next/
+.env
+.env.local
+.env.production
+.env.development.local
+.env.test.local
+.env.production.local
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+coverage/
+.nyc_output/
+*.tsbuildinfo
